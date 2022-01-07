@@ -2,10 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Entities.Identity;
+using API.Extensions;
 using API.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +21,6 @@ namespace API
 {
     public class Startup
     {
-
         public IConfiguration _config { get; }
         
         public Startup(IConfiguration configuration)
@@ -37,6 +39,8 @@ namespace API
             services.AddDbContext<AppIdentityDbContext>(x => {
                 x.UseSqlite(_config.GetConnectionString("IdentityConnection"));
             });
+
+            services.AddIdentityServices(_config);
 
             services.AddSwaggerGen(c =>
             {
